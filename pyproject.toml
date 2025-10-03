@@ -6,10 +6,17 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "dotenv>=0.9.9",
-    "fastapi>=0.118.0",    
-    "requests>=2.32.5",     
-    "langchain>=0.3.27",    
+    "fastapi>=0.118.0",
+    "requests>=2.32.5",
+    "langchain>=0.3.27",
     "langchain-community>=0.3.30",
     "langchain-core>=0.3.77",
     "uvicorn>=0.37.0",
+    "pydantic>=2.11.9",
+    "pymongo>=4.15.2",
+    "bcrypt>=5.0.0",
+    "pinecone>=7.3.0",
+    "langchain-google-genai>=2.1.12",
+    "pip>=25.2",
+    "tqdm>=4.67.1",
 ]
