@@ -6,9 +6,9 @@ from dotenv import load_dotenv
 from pinecone import Pinecone, ServerlessSpec
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from ..config.db import research_paper_collection
-from typing import list
+from typing import List
 from fastapi import UploadFile
 
 load_dotenv()
@@ -30,7 +30,7 @@ spec = ServerlessSpec(cloud="aws", region=PINECONE_ENV)
 existing_indices = [i["name"] for i in pc.list_indexes()]
 
 if PINECONE_INDEX_NAME not in existing_indices:
-    pc.create_index(name=PINECONE_INDEX_NAME, dimension=768,
+    pc.create_index(name=PINECONE_INDEX_NAME, dimension=384,
                     metric="dotproduct", spec=spec)
     while not pc.describe_index(PINECONE_INDEX_NAME).status["ready"]:
         time.sleep(1)
@@ -48,7 +48,7 @@ async def load_vectorstore(uploaded_files: List[UploadFile], uploaded: str, doc_
         doc_id (str): uploaded file id
     """
 
-    embed_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embed_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
     # uplod file, store in upload directory, retrieve content from it
     for file in uploaded_files:
@@ -88,7 +88,7 @@ async def load_vectorstore(uploaded_files: List[UploadFile], uploaded: str, doc_
     await asyncio.to_thread(upsert)
     
     # save rsearch paper metadata in collection
-    research_paper_collection.insert({
+    research_paper_collection.insert_one({
         "doc_id": doc_id,
         "filename": filename,
         "uploader": uploaded,

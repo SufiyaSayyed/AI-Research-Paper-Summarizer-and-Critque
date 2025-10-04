@@ -10,6 +10,6 @@ router = APIRouter(prefix="/papers", tags=["papers"])
 
 @router.post("/upload")
 async def upload_papers(user=Depends(authenticate), files: List[UploadFile] = File(...)):
-    doc_id=str(uuid.uuid64())
+    doc_id=str(uuid.uuid4())
     await load_vectorstore(files, uploaded=user["username"], doc_id=doc_id)
     return {"message": "Uploaded and indexed", "doc_id": doc_id}
