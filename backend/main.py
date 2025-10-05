@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 
-app=FastAPI()
+app = FastAPI()
 
-@app.get("/research")
-def researchCheck():
-    return {"message":"ok"}
+
+@app.get("/heath")
+def heathCheck():
+    return {"message": "ok"}
+
 
 def main():
     print("Hello from ai-research-paper-summarizer!")
