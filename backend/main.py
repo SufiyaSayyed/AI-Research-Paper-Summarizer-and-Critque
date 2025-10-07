@@ -3,7 +3,7 @@ from fastapi import FastAPI
 app = FastAPI()
 
 
-@app.get("/heath")
+@app.get("/health")
 def heathCheck():
     return {"message": "ok"}
 
