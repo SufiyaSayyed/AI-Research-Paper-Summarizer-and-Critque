@@ -7,9 +7,7 @@ export const apiConfig = {
 
 export const client = axios.create({
   baseURL: apiConfig.base_url,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  // withCredentials: true,
 });
 
 client.interceptors.response.use(

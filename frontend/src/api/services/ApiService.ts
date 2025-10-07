@@ -15,9 +15,7 @@ export const userLogin = async (username: string, password: string) => {
 
 export const userSignUp = async (username: string, password: string) => {
   try {
-    const response = await client.post("/auth/signup", {
-      auth: { username, password },
-    });
+    const response = await client.post("/auth/signup", { username, password });
     console.log("signup response: ", response);
     return response.data;
   } catch (error) {
