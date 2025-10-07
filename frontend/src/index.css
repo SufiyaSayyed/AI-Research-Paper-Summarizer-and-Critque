@@ -47,6 +47,16 @@
     --font-sora: "Sora", sans-serif;
     --font-code: "Source Code Pro", monospace;
     --font-grotesk: "Space Grotesk", sans-serif;
+
+    --color-palette-1: #00737a;
+    --color-palette-2: #008981;
+    --color-palette-3: #00a088;
+    --color-palette-4: #12b690;
+    --color-palette-5: #61cd9b;
+    --color-palette-6: #92e3a9;
+    --color-palette-7: #d9eddf;
+    --color-palette-8: #d9eddf;
+    --color-bg: #f1fcf3;
 }
 
 :root {
@@ -124,6 +134,7 @@ html {
 
 body {
     font-family: "Sora";
+    background: #f1fcf3;
 }
 
 @layer base {
