@@ -7,20 +7,17 @@ const LandingPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen w-full">
       {/* Header */}
-      <header className="flex justify-between items-center p-4 shadow-md bg-palette-8">
+      <header className="flex justify-between items-center p-4 bg-palette-8 lg:px-10 lg:mx-20 mt-6 rounded-full px-5 mx-5">
         <h1
-          className="text-xl font-bold cursor-pointer"
+          className="text-xl font-bold cursor-pointer text-palette-1"
           onClick={() => navigate("/")}
         >
-          AI Research Summarizer
+          Paperlytic AI
         </h1>
         <nav>
-          <Button onClick={() => navigate("/login")} className="text-sm ">
-            Login
-          </Button>
           <Button
             onClick={() => navigate("/sign-up")}
-            className="text-sm hover:underline ml-4"
+            className="text-sm hover:underline hover:bg-palette-2 ml-4 rounded-full"
           >
             Sign Up
           </Button>
@@ -40,13 +37,13 @@ const LandingPage: React.FC = () => {
           <div className="flex gap-4">
             <Button
               onClick={() => navigate("/sign-up")}
-              className="px-6 py-2 transition bg-palette-1 hover:bg-palette-3"
+              className="px-6 py-2 transition"
             >
               Get Started
             </Button>
             <Button
               onClick={() => navigate("/login")}
-              className="px-6 py-2 transition bg-transparent text-palette-1 border-2 border-palette-4 hover:bg-palette-1 hover:text-palette-6"
+              className="px-6 py-2 transition bg-transparent text-palette-1 border-2 border-palette-1 hover:bg-palette-1 hover:text-white hover:border-0"
             >
               Login
             </Button>

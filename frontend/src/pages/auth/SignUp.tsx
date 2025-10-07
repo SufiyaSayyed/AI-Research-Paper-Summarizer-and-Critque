@@ -78,7 +78,7 @@ const SignUp = () => {
             )}
           />
 
-          <Button type="submit" className="shad-button_primary">
+          <Button type="submit">
             {form.formState.isSubmitting && isPending ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
@@ -95,7 +95,10 @@ const SignUp = () => {
 
           <p className="text-center mt-2">
             Already have an account?
-            <Link to="/login" className="ml-1">
+            <Link
+              to="/login"
+              className="text-primary font-semi-bold ml-1 hover:underline"
+            >
               Login
             </Link>
           </p>

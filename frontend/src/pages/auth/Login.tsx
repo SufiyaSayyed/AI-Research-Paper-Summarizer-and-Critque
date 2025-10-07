@@ -78,7 +78,7 @@ const Login = () => {
             )}
           />
 
-          <Button type="submit" className="shad-button_primary">
+          <Button type="submit" className="">
             {form.formState.isSubmitting && isPending ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
@@ -88,9 +88,12 @@ const Login = () => {
             )}
           </Button>
           {isError && <p className="text-red-600">Invalid Credentials</p>}
-          <p className="text-center">
+          <p className="text-center mt-2">
             Don&apos;t have an account?
-            <Link to="/sign-up" className="text-primary-500 ml-1">
+            <Link
+              to="/sign-up"
+              className="text-primary font-semi-bold ml-1 hover:underline"
+            >
               Sign up
             </Link>
           </p>
