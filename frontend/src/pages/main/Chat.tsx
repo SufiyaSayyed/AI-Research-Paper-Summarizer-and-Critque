@@ -8,6 +8,7 @@ import { useState } from "react";
 const Chat = () => {
   const { user } = useAuth();
   const [file, setFile] = useState<File | null>(null);
+  const [query, setQuery] = useState("");
 
   const handleFileSelect = (selectedFile: File | null) => {
     console.log(selectedFile);
@@ -16,6 +17,7 @@ const Chat = () => {
 
   const handleSubmit = () => {
     console.log(file);
+    console.log("query: ", query);
   };
 
   return (
@@ -24,10 +26,15 @@ const Chat = () => {
       <p className="mb-6">
         Upload research paper and prompt query to genereate summar!
       </p>
-      <div className="flex flex-col gap-2 bg-palette-7 p-2 rounded-2xl w-full md:w-150 shadow-md">
+      <div className="flex flex-col gap-4 bg-palette-7 p-2 rounded-2xl w-full md:w-150 shadow-md">
         <FileUploader onFileSelect={handleFileSelect} />
         <div className="flex flex-row gap-3">
-          <Input placeholder="Enter Query" className="" />
+          <Input
+            placeholder="Enter Query"
+            className="bg-white"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
           <Button onClick={handleSubmit}>
             <MoveRightIcon></MoveRightIcon>
           </Button>

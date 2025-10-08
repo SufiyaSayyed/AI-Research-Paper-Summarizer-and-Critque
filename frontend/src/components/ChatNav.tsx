@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import type { ChatNavProps } from "@/types";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Folder, MessageSquareText } from "lucide-react";
+import { Folder, LogOut, MessageSquareText } from "lucide-react";
 
 const ChatNav: React.FC<ChatNavProps> = ({ setIsOpen, showText = false }) => {
   const location = useLocation();
@@ -13,7 +13,7 @@ const ChatNav: React.FC<ChatNavProps> = ({ setIsOpen, showText = false }) => {
   ];
 
   return (
-    <>
+    <div>
       {links.map(({ to, label, icon: Icon }) => (
         <Link
           key={to}
@@ -39,7 +39,28 @@ const ChatNav: React.FC<ChatNavProps> = ({ setIsOpen, showText = false }) => {
           {showText && <span className="font-medium">{label}</span>}
         </Link>
       ))}
-    </>
+      <Link
+        to="/"
+        className={cn(
+          "flex items-center gap-3 justify-center rounded-lg transition-colors p-2 mb-4 fixed bottom-0 left-0 right-0 md:left-auto md:right-auto",
+          location.pathname === "/"
+            ? "bg-palette-1 text-white"
+            : "hover:bg-palette-7 text-gray-600"
+        )}
+        onClick={() => setIsOpen(false)}
+      >
+        <LogOut
+          size={22}
+          className={cn(
+            "transition-colors",
+            location.pathname === "/"
+              ? "text-white"
+              : "text-gray-700 group-hover:text-black"
+          )}
+        />
+        <p className="md:hidden">Logout</p>
+      </Link>
+    </div>
   );
 };
 
