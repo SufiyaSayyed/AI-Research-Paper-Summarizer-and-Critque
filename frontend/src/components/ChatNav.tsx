@@ -20,7 +20,7 @@ const ChatNav: React.FC<ChatNavProps> = ({ setIsOpen, showText = false }) => {
           to={to}
           className={cn(
             "flex items-center gap-3 rounded-lg transition-colors",
-            showText ? "px-3 py-2" : "p-3 justify-center",
+            showText ? "px-3 py-2" : "p-2 justify-center",
             location.pathname === to
               ? "bg-palette-1 text-white"
               : "hover:bg-palette-7 text-gray-600"
