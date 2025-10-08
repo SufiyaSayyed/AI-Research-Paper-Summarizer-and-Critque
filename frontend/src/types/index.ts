@@ -1,6 +1,5 @@
 export interface User {
   username: string;
-  passowrd: string;
 }
 
 export interface LoginRequest {
@@ -24,6 +23,7 @@ export interface SignupRequest {
 
 export type AuthContextType = {
   user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   login: (username: string, password: string) => Promise<void>;
   signup: (username: string, password: string, role: string) => Promise<void>;
   logout: () => void;

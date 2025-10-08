@@ -14,7 +14,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const signup = async (username: string, password: string) => {
-    await userSignUp(username, password);
+    const res = await userSignUp(username, password);
+    setUser(res);
   };
 
   const logout = () => {
@@ -23,6 +24,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const value = {
     user,
+    setUser,
     login,
     signup,
     logout,

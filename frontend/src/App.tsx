@@ -10,33 +10,31 @@ import Dashboard from "./pages/main/Dashboard";
 
 function App() {
   return (
-    <main className="h-screen flex">
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<SignUp />} />
-        </Route>
-        <Route element={<MainLayout />}>
-          <Route
-            path="/dashboard"
-            element={
-              // <ProtectedRoute>
-              <Dashboard />
-              // </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/chat"
-            element={
-              // <ProtectedRoute>
-              <Chat />
-              // </ProtectedRoute>
-            }
-          />
-        </Route>
-      </Routes>
-    </main>
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route element={<AuthLayout />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<SignUp />} />
+      </Route>
+      <Route element={<MainLayout />}>
+        <Route
+          path="/dashboard"
+          element={
+            // <ProtectedRoute>
+            <Dashboard />
+            // </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            // <ProtectedRoute>
+            <Chat />
+            // </ProtectedRoute>
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 

@@ -49,7 +49,7 @@ const MainLayout = () => {
             <img src="assets/logo.svg" alt="logo" width={20} />
           </a>
         </div>
-        <main className="flex-1 p-6 overflow-y-auto mt-10 xl:mt-0 lg:mt-0 md:mt-0">
+        <main className="flex-1 px-6 overflow-y-auto">
           <Outlet />
         </main>
       </div>
