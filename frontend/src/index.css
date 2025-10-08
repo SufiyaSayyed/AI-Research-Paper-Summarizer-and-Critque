@@ -71,6 +71,7 @@
     --color-palette-6: #92e3a9;
     --color-palette-7: #d9eddf;
     --color-palette-8: #f1fcf3;
+    --color-palette-9: #FAFFFB;
     --color-bg-2: #d9eddf;
 
 }
@@ -189,7 +190,7 @@ html {
 
 body {
     font-family: "Sora";
-    background: #d9eddf;
+    background: #F1FFF5;
 }
 
 @layer base {

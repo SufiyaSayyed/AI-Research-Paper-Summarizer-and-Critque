@@ -28,3 +28,8 @@ export type AuthContextType = {
   signup: (username: string, password: string, role: string) => Promise<void>;
   logout: () => void;
 };
+
+export type ChatNavProps = {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  showText?: boolean;
+};

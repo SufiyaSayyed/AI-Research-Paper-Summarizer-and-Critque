@@ -3,10 +3,10 @@ import AuthLayout from "./pages/auth/AuthLayout";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import MainLayout from "./pages/main/MainLayout";
-import Dashboard from "./pages/main/Dashboard";
-import UploadPaper from "./pages/main/UploadPaper";
 import { ProtectedRoute } from "./pages/auth/ProtectedRoute";
 import Landing from "./pages/main/Landing";
+import Chat from "./pages/main/Chat";
+import Dashboard from "./pages/main/Dashboard";
 
 function App() {
   return (
@@ -27,11 +27,11 @@ function App() {
             }
           />
           <Route
-            path="/upload-paper"
+            path="/chat"
             element={
-              <ProtectedRoute>
-                <UploadPaper />
-              </ProtectedRoute>
+              // <ProtectedRoute>
+              <Chat />
+              // </ProtectedRoute>
             }
           />
         </Route>

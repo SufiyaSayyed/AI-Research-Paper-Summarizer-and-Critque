@@ -7,7 +7,7 @@ const LandingPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen w-full">
       {/* Header */}
-      <header className="flex justify-between items-center p-4 bg-palette-8 lg:px-10 lg:mx-20 mt-6 rounded-full px-5 mx-5">
+      <header className="flex justify-between items-center p-4 bg-white shadow-md lg:px-10 lg:mx-20 mt-6 rounded-full px-5 mx-5">
         <h1
           className="text-xl font-bold cursor-pointer text-palette-1"
           onClick={() => navigate("/")}
