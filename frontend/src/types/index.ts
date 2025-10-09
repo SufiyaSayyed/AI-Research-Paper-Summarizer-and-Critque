@@ -33,3 +33,9 @@ export type ChatNavProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   showText?: boolean;
 };
+
+
+export type PaperContextType = {
+  docId: string | "";
+  setDocId: React.Dispatch<React.SetStateAction<string | "">>;
+}

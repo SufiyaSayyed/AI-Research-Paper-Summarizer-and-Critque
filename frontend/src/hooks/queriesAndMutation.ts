@@ -1,5 +1,5 @@
-import { userLogin, userSignUp } from "@/api/services/ApiService";
-import { useAuth } from "@/context/useAuthContext";
+import { getSummary, uploadPaper, userLogin, userSignUp } from "@/api/services/ApiService";
+import { useAuth } from "@/hooks/useAuthContext";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
@@ -35,6 +35,35 @@ export const useSignupMutation = () => {
     },
     onError: (error) => {
       console.log("Signup error: ", error);
+      throw error;
+    },
+  });
+};
+
+export const useUploadMutation = () => {
+  return useMutation({
+    mutationFn: async (file: FormData) => {
+      return await uploadPaper(file);
+    },
+    onError: (error) => {
+      console.log("Upload error: ", error);
+      throw error;
+    },
+  });
+};
+
+export const useSummaryMutation = () => {
+const navigate = useNavigate();
+  return useMutation({
+    mutationFn: async (data: {docId: string, query: string}) => {
+      return await getSummary(data.docId, data.query);
+    },
+    onSuccess: (data) => {
+     console.log("get summary data: ", data)
+     navigate("/summary", {state: data})
+    },
+    onError: (error) => {
+      console.log("Upload error: ", error);
       throw error;
     },
   });

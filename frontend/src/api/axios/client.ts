@@ -5,6 +5,14 @@ export const apiConfig = {
   base_url: env.apiBaseUrl,
 };
 
+export const apiHeader = {
+  "Content-Type": "application/json",
+};
+
+export const uploadHeader = {
+  "Content-Type": "multipart/form-data",
+};
+
 export const client = axios.create({
   baseURL: apiConfig.base_url,
   // withCredentials: true,
