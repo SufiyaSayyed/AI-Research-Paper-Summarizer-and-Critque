@@ -14,7 +14,7 @@ export const useLoginMutation = () => {
     onSuccess: (data) => {
       console.log("Login successful:", data);
       setUser(data);
-      navigate("/chat"); // Redirect to dashboard/home
+      navigate("/upload"); // Redirect to dashboard/home
     },
     onError: (error) => {
       console.error("Login failed:", error);
@@ -31,7 +31,7 @@ export const useSignupMutation = () => {
     },
     onSuccess: (data) => {
       console.log("Signup successful", data);
-      navigate("/chat");
+      navigate("/upload");
     },
     onError: (error) => {
       console.log("Signup error: ", error);

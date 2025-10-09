@@ -5,8 +5,9 @@ import SignUp from "./pages/auth/SignUp";
 import MainLayout from "./pages/main/MainLayout";
 import { ProtectedRoute } from "./pages/auth/ProtectedRoute";
 import Landing from "./pages/main/Landing";
-import Chat from "./pages/main/Chat";
 import Dashboard from "./pages/main/Dashboard";
+import Upload from "./pages/main/Upload";
+import Summary from "./pages/main/Summary";
 
 function App() {
   return (
@@ -18,6 +19,14 @@ function App() {
       </Route>
       <Route element={<MainLayout />}>
         <Route
+          path="/upload"
+          element={
+            // <ProtectedRoute>
+            <Upload />
+            // </ProtectedRoute>
+          }
+        />
+        <Route
           path="/dashboard"
           element={
             // <ProtectedRoute>
@@ -26,10 +35,10 @@ function App() {
           }
         />
         <Route
-          path="/chat"
+          path="/summary"
           element={
             // <ProtectedRoute>
-            <Chat />
+            <Summary />
             // </ProtectedRoute>
           }
         />

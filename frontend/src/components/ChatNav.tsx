@@ -8,7 +8,7 @@ const ChatNav: React.FC<ChatNavProps> = ({ setIsOpen, showText = false }) => {
   const location = useLocation();
 
   const links = [
-    { to: "/chat", label: "Chat", icon: MessageSquareText },
+    { to: "/upload", label: "Chat", icon: MessageSquareText },
     { to: "/dashboard", label: "References", icon: Folder },
   ];
 

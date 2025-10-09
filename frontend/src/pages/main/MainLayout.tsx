@@ -10,7 +10,7 @@ const MainLayout = () => {
     <div className="min-h-screen flex">
       <div className="hidden md:flex flex-col border-r bg-palette-9">
         <div className="py-4 flex justify-center items-center">
-          <a href="/chat" className="block">
+          <a href="/upload" className="block">
             <img src="assets/logo.svg" alt="logo" width={30} />
           </a>
         </div>
@@ -24,7 +24,7 @@ const MainLayout = () => {
         ${isOpen ? "translate-x-0 w-70" : "-translate-x-full w-70"}`}
       >
         <div className="flex justify-between items-center py-4 px-4 border-b">
-          <a href="/chat" className="block">
+          <a href="/upload" className="block">
             <img src="assets/logo.svg" alt="logo" width={20} />
           </a>
           <button onClick={() => setIsOpen(false)}>
@@ -45,7 +45,7 @@ const MainLayout = () => {
           >
             <Menu className="w-5 h-5" />
           </button>
-          <a href="/chat" className="block">
+          <a href="/upload" className="block">
             <img src="assets/logo.svg" alt="logo" width={20} />
           </a>
         </div>
