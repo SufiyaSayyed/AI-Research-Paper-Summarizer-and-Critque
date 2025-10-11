@@ -1,8 +1,17 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from .models import SignUpRequest
-from .hash_utils import hash_password, verify_password
+from .auth_utils import hash_password, verify_password
 from ..config.db import users_collection
+from ..config.config import settings
+
+
+pwd_context = Cryp
+
+
+
+
+
 
 
 # Creates a router for authentication-related routes, all starting with /auth.
