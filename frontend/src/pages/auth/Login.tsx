@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useLoginMutation } from "@/hooks/queriesAndMutation";
 import { loginSchema } from "@/lib/validations";
+import type { LoginRequest } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -27,7 +28,11 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<LoginForm> = async (data) => {
     try {
-      mutate(data);
+      const loginRequest: LoginRequest = {
+        email: data.email,
+        password: data.password,
+      };
+      mutate(loginRequest);
     } catch (error) {
       form.setError("root", { message: "Server error" });
       console.error(error);
@@ -52,10 +57,10 @@ const Login = () => {
         >
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Username</FormLabel>
+                <FormLabel className="shad-form_label">Email</FormLabel>
                 <FormControl>
                   <Input type="text" className="shad-input" {...field} />
                 </FormControl>

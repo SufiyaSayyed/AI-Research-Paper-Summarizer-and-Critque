@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
+import type { SignupRequest } from "@/types";
 
 type SignupForm = z.infer<typeof signupSchema>;
 
@@ -27,7 +28,13 @@ const SignUp = () => {
 
   const onSubmit: SubmitHandler<SignupForm> = async (data) => {
     try {
-      mutate(data);
+      const signupRequest: SignupRequest = {
+        email: data.email,
+        username: data.username,
+        password: data.password,
+      };
+      console.log("signupRequest: ", signupRequest);
+      mutate(signupRequest);
     } catch (error) {
       form.setError("root", { message: "Server error" });
       console.error(error);
@@ -50,6 +57,19 @@ const SignUp = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-5 w-full mt-4"
         >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="shad-form_label">Email ID</FormLabel>
+                <FormControl>
+                  <Input type="text" className="shad-input" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="username"

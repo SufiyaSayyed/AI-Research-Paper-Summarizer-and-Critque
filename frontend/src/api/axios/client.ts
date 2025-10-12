@@ -1,8 +1,10 @@
 import axios from "axios";
 import { env } from "../config/env";
+import { refreshAccessToken } from "../services/ApiService";
 
 export const apiConfig = {
   base_url: env.apiBaseUrl,
+  withCredentials: true, // Configure axios to include cookies with each request
 };
 
 export const apiHeader = {
@@ -13,31 +15,43 @@ export const uploadHeader = {
   "Content-Type": "multipart/form-data",
 };
 
+let getAccessToken: (() => string | null) | null = null;
+let setAccessToken: ((token: string) => void) | null = null;
+
+export const registerTokenHandlers = (
+  getFn: () => string | null,
+  setFn: (token: string) => void
+) => {
+  getAccessToken = getFn;
+  setAccessToken = setFn;
+};
+
 export const client = axios.create({
   baseURL: apiConfig.base_url,
-  // withCredentials: true,
 });
 
 client.interceptors.response.use(
   (response) => response,
-  (error) => {
-    switch (error.response?.status) {
-      case 400:
-        throw new Error("Bad Request, Please check your input prompt.");
-      case 415:
-        throw new error(
-          "Unsupported Media Type. Invalid file type. Supported file types are jpeg, jpg, png, webp."
-        );
-      case 429:
-        throw new Error(
-          "Too Many Requests: Request limit exceeded. Try again later."
-        );
-      case 500:
-        throw new Error(
-          "Internal server error occured. Please try again later."
-        );
-      default:
-        throw new Error("Unknown error occurred.");
+  async (error) => {
+    console.log("interceptor error: ", error);
+    const originalRequest = error.config;
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      getAccessToken &&
+      setAccessToken
+    ) {
+      originalRequest._retry = true;
+      try {
+        const newAccessToken = await refreshAccessToken();
+        setAccessToken(newAccessToken);
+        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        return client(originalRequest);
+      } catch (refreshError) {
+        console.error("Refresh failed:", refreshError);
+      }
     }
+    return Promise.reject(error);
   }
 );

@@ -1,11 +1,15 @@
+import type { LoginRequest, SignupRequest } from "@/types";
 import { apiHeader, client, uploadHeader } from "../axios/client";
 
-export const userLogin = async (username: string, password: string) => {
+export const userLogin = async (loginRequest: LoginRequest) => {
   try {
-    const response = await client.get("/auth/login", {
-      headers: apiHeader,
-      auth: { username, password },
-    });
+    const response = await client.post(
+      "/auth/new-login",
+      { ...loginRequest },
+      {
+        headers: apiHeader,
+      }
+    );
     console.log("login response: ", response);
     return response.data;
   } catch (error) {
@@ -14,14 +18,23 @@ export const userLogin = async (username: string, password: string) => {
   }
 };
 
-export const userSignUp = async (username: string, password: string) => {
+export const userLogout = async () => {
+  try {
+    const response = await client.get("/auth/new-logout", {});
+    console.log("login response: ", response);
+    return response.data;
+  } catch (error) {
+    console.log("login error: ", error);
+    throw error;
+  }
+};
+
+export const userSignUp = async (signUpRequest: SignupRequest) => {
+  console.log("singup Request: ", signUpRequest);
   try {
     const response = await client.post(
-      "/auth/signup",
-      {
-        username,
-        password,
-      },
+      "/auth/new-signup",
+      { ...signUpRequest },
       {
         headers: apiHeader,
       }
@@ -30,6 +43,17 @@ export const userSignUp = async (username: string, password: string) => {
     return response.data;
   } catch (error) {
     console.log("signup error: ", error);
+    throw error;
+  }
+};
+
+export const refreshAccessToken = async () => {
+  try {
+    const response = await client.get("/auth-refresh", {});
+    console.log("refreshToken response: ", response);
+    return response.data;
+  } catch (error) {
+    console.log("refreshToken error: ", error);
     throw error;
   }
 };
@@ -49,13 +73,17 @@ export const uploadPaper = async (file: FormData) => {
 
 export const getSummary = async (docId: string, query: string) => {
   try {
-    const response = await client.post("/summary/from_summary", {docId, query}, {
-      headers: apiHeader
-    })
-    console.log("gt summary response: ", response)
+    const response = await client.post(
+      "/summary/from_summary",
+      { docId, query },
+      {
+        headers: apiHeader,
+      }
+    );
+    console.log("gt summary response: ", response);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.log("get summary error: ", error);
     throw error;
   }
-}
+};

@@ -1,15 +1,17 @@
 export interface User {
+  email: string;
   username: string;
 }
 
 export interface LoginRequest {
-  username: string;
-  passowrd: string;
+  email: string;
+  password: string;
 }
 
 export interface SignupRequest {
+  email: string;
   username: string;
-  passowrd: string;
+  password: string;
 }
 
 // export interface LoginResponse {
@@ -24,8 +26,10 @@ export interface SignupRequest {
 export type AuthContextType = {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  login: (username: string, password: string) => Promise<void>;
-  signup: (username: string, password: string, role: string) => Promise<void>;
+  accessToken: string | "";
+  setAccessToken: React.Dispatch<React.SetStateAction<string | "">>;
+  login: (loginRequest: LoginRequest) => Promise<void>;
+  signup: (signupRequest: SignupRequest) => Promise<void>;
   logout: () => void;
 };
 
@@ -34,8 +38,7 @@ export type ChatNavProps = {
   showText?: boolean;
 };
 
-
 export type PaperContextType = {
   docId: string | "";
   setDocId: React.Dispatch<React.SetStateAction<string | "">>;
-}
+};
