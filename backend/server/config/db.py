@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from pymongo import MongoClient
 import os
-from config.config import settings
+from .config import settings
 
 client = MongoClient(settings.MONGO_URI)
 db = client[settings.DB_NAME]

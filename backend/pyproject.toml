@@ -12,9 +12,8 @@ dependencies = [
     "langchain-community>=0.3.30",
     "langchain-core>=0.3.77",
     "uvicorn>=0.37.0",
-    "pydantic>=2.11.9",
+    "pydantic[email]>=2.11.9",
     "pymongo>=4.15.2",
-    "bcrypt>=5.0.0",
     "pinecone>=7.3.0",
     "langchain-google-genai>=2.1.12",
     "pip>=25.2",
@@ -27,4 +26,5 @@ dependencies = [
     "langchain-ollama>=0.3.10",
     "python-jose[cryptography]>=3.5.0",
     "passlib>=1.7.4",
+    "bcrypt==4.3.0",
 ]
