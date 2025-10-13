@@ -7,6 +7,7 @@ from ..config.config import settings
 from datetime import datetime, timedelta, timezone
 from bson import ObjectId
 from jose import jwt, JWTError
+from fastapi.responses import JSONResponse
 
 # Creates a router for authentication-related routes, all starting with /auth.
 # security = HTTPBasic() → sets up HTTP Basic authentication handler.
@@ -87,8 +88,8 @@ def signup(payload: SignUpRequest, response: Response):
     }
 
 
-@router.post("/new-login", response_model=TokenResponse)
-def login(payload: LoginRequest, response: Response):
+@router.post("/new-login")
+def login(payload: LoginRequest):
     print("payload: ", payload)
     user = get_user_by_email(payload.email)
     print("user details: ", user)
@@ -109,15 +110,20 @@ def login(payload: LoginRequest, response: Response):
             }
         }}
     )
-    print("refresh_token", refresh_token)
-    response.set_cookie("refresh_token", refresh_token, httponly=True, secure=False, samesite="lax",
-                        max_age=int((expire - datetime.now(timezone.utc)).total_seconds()))
-
-    return {
+    response = JSONResponse(content={
         "access_token": access_tk,
         "username": user["username"],
         "email": user["email"]
-    }
+    })
+    response.set_cookie(
+        key="refresh_token",
+        value=refresh_token,
+        httponly=True,
+        secure=False,
+        samesite="lax",
+        max_age=int((expire - datetime.now(timezone.utc)).total_seconds())
+    )
+    return response
 
 
 @router.post("/new-logout")

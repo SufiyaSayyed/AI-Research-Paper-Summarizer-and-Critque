@@ -3,12 +3,15 @@ from ..auth.route import authenticate
 from .query import research_paper_summary
 from ..config.db import research_paper_collection, summary_collection
 import time
+from .models import SummaryRequest
 
 router = APIRouter(prefix="/summary", tags=["summary"])
 
 
 @router.post("/from_summary")
-async def summary(user=Depends(authenticate), doc_id: str = Form(...), query: str = Form(default="Please summarize and critique this research paper")):
+async def summary(request: SummaryRequest, user=Depends(authenticate)):
+    doc_id = request.docId
+    query = request.query    
     paper = research_paper_collection.find_one({"doc_id": doc_id})
     if not paper:
         raise HTTPException(status_code=404, detail="Research paper not found")

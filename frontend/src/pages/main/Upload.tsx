@@ -42,14 +42,18 @@ const Upload = () => {
     console.log(file);
     uploadPaper(formData, {
       onSuccess: (data) => {
-        setDocId(data);
-        console.log(docId);
+        console.log("Received data: ", data);
+        setDocId(data.doc_id);
         console.log("Upload successful", data);
         if (!data) {
           toast("Error in uploading file, please try again");
           return;
         }
-        fetchSummary({ docId, query });
+        if (!docId) {
+          toast("Error in uploading file, please try again");
+          return;
+        }
+        fetchSummary({ docId: data.doc_id, query });
       },
     });
   };

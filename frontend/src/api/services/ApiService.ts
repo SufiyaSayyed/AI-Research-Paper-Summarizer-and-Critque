@@ -22,7 +22,7 @@ export const userLogin = async (loginRequest: LoginRequest) => {
 
 export const userLogout = async () => {
   try {
-    const response = await client.get("/auth/new-logout", {});
+    const response = await client.post("/auth/new-logout", {});
     console.log("login response: ", response);
     return response.data;
   } catch (error) {
@@ -78,6 +78,7 @@ export const uploadPaper = async (file: FormData) => {
 };
 
 export const getSummary = async (docId: string, query: string) => {
+  console.log("in get summary api call: ", docId, query);
   try {
     const response = await client.post(
       "/summary/from_summary",
@@ -86,7 +87,7 @@ export const getSummary = async (docId: string, query: string) => {
         headers: apiHeader,
       }
     );
-    console.log("gt summary response: ", response);
+    console.log("get summary response: ", response);
     return response.data;
   } catch (error) {
     console.log("get summary error: ", error);
