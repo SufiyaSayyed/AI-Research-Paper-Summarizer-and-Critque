@@ -14,49 +14,40 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 security = HTTPBasic()
 
 # This function runs when authentication is required.
-# Depends(security) → FastAPI automatically extracts username/password from the HTTP Basic header.
 # users_collection.find_one(...) → looks for a matching user in MongoDB.
 # If user doesn’t exist OR password verification fails → return 401 Unauthorized.
-# If valid → return a dict with the username.
+# If valid → return a dict with the username, email, user_id.
 
-def authenticate(credentials: HTTPBasicCredentials=Depends(security)):
-    user=users_collection.find_one({"username": credentials.username})
+def authenticate(request: Request):
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Authorization header missing or invalid")
+    
+    token = auth_header.split(" ")[1]
+    
+    try: 
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        if payload.get("type") != "access":
+            raise HTTPException(status_code=401, detail="Inavalid token type")
+        user_id = payload.get("sub")
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Invalid token payload")
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid or expired access token")
+    
+    user = users_collection.find_one({"_id": ObjectId(user_id)})
+
     
     if not user:
         raise HTTPException(status_code=401, detail="User not found. Create user.")
     
-    if not user or not verify_password(credentials.password, user["password"]):
-        raise HTTPException(status_code=401, detail="Unauthorized acess. Invalid credentials.")
-    return {"username": user["username"]}
-
-
-# Method: POST /auth/signup (account creation endpoint)
-# Input: A SignUpRequest object.
-# First, checks if a user already exists. If yes → return 400 Bad Request.
-# If new, hash password and inserts in DB.
-# Returns a success message.
-
-@router.post("/signup")
-def signup(request: SignUpRequest):
-    if users_collection.find_one({"username": request.username}):
-        raise HTTPException(status_code=400, detail="User already exists")
-    
-    users_collection.insert_one({
-        "username": request.username,
-        "password": hash_password(request.password)
-    })
-    
-    return {"message": "User created successfully!"}
-
-
-# Method: GET /auth/login(login endpoint)
-# user=Depends(authenticate) → before running login(), FastAPI calls authenticate().
-# If authentication passes, returns the logged-in user’s username.
-# doesn’t create a session or JWT. It just validates credentials.
-@router.get("/login")
-def login(user=Depends(authenticate)):
-    return {"username": user["username"]}
-
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized access. Invalid credentials.")
+    return {
+        "user_id": str(user["_id"]),
+        "username": user["username"],
+        "email": user["email"]
+        }
 
 @router.post("/new-signup", response_model=TokenResponse)
 def signup(payload: SignUpRequest, response: Response):
@@ -87,7 +78,7 @@ def signup(payload: SignUpRequest, response: Response):
             }
         }}
     )
-    response.set_cookie("refresh_token", refresh_token, httponly=True, secure=True,
+    response.set_cookie("refresh_token", refresh_token, httponly=True, secure=False,
                         samesite="lax", max_age=int((expire - datetime.now(timezone.utc)).total_seconds()))
     return {
         "username": payload.username,
@@ -118,7 +109,8 @@ def login(payload: LoginRequest, response: Response):
             }
         }}
     )
-    response.set_cookie("refresh_token", refresh_token, httponly=True, secure=True, samesite="lax",
+    print("refresh_token", refresh_token)
+    response.set_cookie("refresh_token", refresh_token, httponly=True, secure=False, samesite="lax",
                         max_age=int((expire - datetime.now(timezone.utc)).total_seconds()))
 
     return {
@@ -152,7 +144,9 @@ def logout(request: Request, response: Response):
 @router.post("/refresh", response_model=TokenResponse)
 def refresh_token(request: Request, response: Response):
     # refresh token delivered via HttpOnly cookie
+    print("request of refresh: ", request)
     refresh = request.cookies.get("refresh_token")
+    print("refresh token: ", refresh)
     if not refresh:
         raise HTTPException(401, "No refresh token")
     try:
@@ -204,11 +198,10 @@ def refresh_token(request: Request, response: Response):
             }
         }}
     )
-    response.set_cookie("refresh_token", new_refresh, httponly=True, secure=True, samesite="lax", max_age=int(
+    response.set_cookie("refresh_token", new_refresh, httponly=True, secure=False, samesite="lax", max_age=int(
         (new_expire - datetime.now(timezone.utc)).total_seconds()))
     return {
         "access_token": access_tk,
         "username": user["username"],
         "email": user["email"]
         }
-

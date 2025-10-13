@@ -49,7 +49,7 @@ const Upload = () => {
           toast("Error in uploading file, please try again");
           return;
         }
-        fetchSummary({docId, query});
+        fetchSummary({ docId, query });
       },
     });
   };
@@ -111,7 +111,13 @@ const Upload = () => {
           </div>
         )}
         <div className="w-full flex flex-row gap-4 justify-center items-center">
-          <Textarea placeholder="Enter Query..." onChange={(e) => {setQuery(e.target.value)}} className="bg-white"/>
+          <Textarea
+            placeholder="Enter Query..."
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+            className="bg-white"
+          />
           <Button
             onClick={handleUpload}
             className="w-fit"

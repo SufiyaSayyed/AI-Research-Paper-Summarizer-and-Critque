@@ -22,6 +22,11 @@ type SignupForm = z.infer<typeof signupSchema>;
 const SignUp = () => {
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
+    defaultValues: {
+      email: "",
+      username: "",
+      password: "",
+    },
   });
 
   const { mutate, isPending, isError } = useSignupMutation();

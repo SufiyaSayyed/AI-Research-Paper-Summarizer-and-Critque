@@ -22,6 +22,10 @@ type LoginForm = z.infer<typeof loginSchema>;
 const Login = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   const { mutate, isError, isPending } = useLoginMutation();

@@ -21,25 +21,28 @@ function App() {
         <Route
           path="/upload"
           element={
-            // <ProtectedRoute>
-            <Upload />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <Upload />
+              //{" "}
+            </ProtectedRoute>
           }
         />
         <Route
           path="/dashboard"
           element={
-            // <ProtectedRoute>
-            <Dashboard />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <Dashboard />
+              //{" "}
+            </ProtectedRoute>
           }
         />
         <Route
           path="/summary"
           element={
-            // <ProtectedRoute>
-            <Summary />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <Summary />
+              //{" "}
+            </ProtectedRoute>
           }
         />
       </Route>
