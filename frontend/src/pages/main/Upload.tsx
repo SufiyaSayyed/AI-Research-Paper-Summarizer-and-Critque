@@ -54,6 +54,7 @@ const Upload = () => {
           return;
         }
         fetchSummary({ docId: data.doc_id, query });
+        console.log("fetchin in");
       },
     });
   };
@@ -62,7 +63,7 @@ const Upload = () => {
     <div className="text-center text-gray-600 flex flex-col items-center h-full justify-center">
       <h2 className="font-semibold mb-4">Hello {user?.username || "Guest"}</h2>
       <p className="mb-6">
-        Upload research paper and prompt query to genereate summar!
+        Upload research paper and prompt query to genereate summary!
       </p>
       <div className="flex flex-col items-center gap-4 bg-palette-7 p-3 rounded-2xl w-full md:w-150 shadow-md">
         {(file || !file) && (
