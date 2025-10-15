@@ -1,7 +1,11 @@
-import { getSummary, uploadPaper } from "@/api/services/ApiService";
+import {
+  fetchSummaryById,
+  generateSummary,
+  uploadPaper,
+} from "@/api/services/ApiService";
 import { useAuth } from "@/hooks/useAuthContext";
 import type { LoginRequest, SignupRequest } from "@/types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 export const useLoginMutation = () => {
@@ -73,19 +77,28 @@ export const useUploadMutation = () => {
   });
 };
 
-export const useSummaryMutation = () => {
+export const useFetchSummaryMutation = () => {
   const navigate = useNavigate();
   return useMutation({
     mutationFn: async (data: { docId: string; query: string }) => {
-      return await getSummary(data.docId, data.query);
+      console.log("fetch summary req: ", data);
+      return await generateSummary(data.docId, data.query);
     },
     onSuccess: (data) => {
       console.log("get summary data: ", data);
-      navigate("/summary", { state: data });
+      navigate(`/summary/${data.doc_id}`, { state: data });
     },
     onError: (error) => {
       console.log("Upload error: ", error);
       throw error;
     },
+  });
+};
+
+export const useFetchSummaryByIdQuery = (doc_id: string) => {
+  return useQuery({
+    queryFn: () => fetchSummaryById(doc_id as string),
+    queryKey: ["summary", doc_id],
+    enabled: !!doc_id,
   });
 };

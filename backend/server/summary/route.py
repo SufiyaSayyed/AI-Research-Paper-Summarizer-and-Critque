@@ -3,16 +3,18 @@ from ..auth.route import authenticate
 from .query import research_paper_summary
 from ..config.db import research_paper_collection, summary_collection
 import time
-from .models import SummaryRequest
+from .models import GenerateSummaryRequest
 
 router = APIRouter(prefix="/summary", tags=["summary"])
 
 
-@router.post("/from_summary")
-async def summary(request: SummaryRequest, user=Depends(authenticate)):
+@router.post("/generate_summary")
+async def summary(request: GenerateSummaryRequest, user=Depends(authenticate)):
     doc_id = request.docId
     query = request.query    
     paper = research_paper_collection.find_one({"doc_id": doc_id})
+    print("docid: ", doc_id)
+    print("query: ", query)
     if not paper:
         raise HTTPException(status_code=404, detail="Research paper not found")
     
@@ -33,7 +35,21 @@ async def summary(request: SummaryRequest, user=Depends(authenticate)):
         "timestamp": time.time()
     })
     
-    return res
+    return {
+        "doc_id": doc_id,
+        "requester": user["username"]
+    }
+
+@router.get("/fetch_summary_by_id/{doc_id}")
+async def fetch_summary_by_id(doc_id: str, user=Depends(authenticate)): 
+    summaries = summary_collection.find({"doc_id": doc_id, "requester": user["username"]})
+    result = []
+    for s in summaries:
+        s["_id"] = str(s["_id"])
+        result.append(s)
+    if not result:
+        raise HTTPException(status_code=404, detail="No summary found for this user")
+    return result
 
 @router.get("/by_user")
 async def get_user_summaries(user=Depends(authenticate)):

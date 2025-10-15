@@ -2,7 +2,7 @@ import FileUploader from "@/components/FileUploader";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  useSummaryMutation,
+  useFetchSummaryMutation,
   useUploadMutation,
 } from "@/hooks/queriesAndMutation";
 import { useAuth } from "@/hooks/useAuthContext";
@@ -15,7 +15,7 @@ const Upload = () => {
   const { user } = useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [query, setQuery] = useState("");
-  const { docId, setDocId } = usePaper();
+  const { setDocId } = usePaper();
   const {
     mutate: uploadPaper,
     isError: isUploadError,
@@ -25,7 +25,7 @@ const Upload = () => {
     mutate: fetchSummary,
     isError: isFetchSumError,
     isPending: isFetchSumPending,
-  } = useSummaryMutation();
+  } = useFetchSummaryMutation();
 
   const handleFileSelect = (selectedFile: File | null) => {
     console.log(selectedFile);
@@ -46,10 +46,6 @@ const Upload = () => {
         setDocId(data.doc_id);
         console.log("Upload successful", data);
         if (!data) {
-          toast("Error in uploading file, please try again");
-          return;
-        }
-        if (!docId) {
           toast("Error in uploading file, please try again");
           return;
         }

@@ -77,16 +77,30 @@ export const uploadPaper = async (file: FormData) => {
   }
 };
 
-export const getSummary = async (docId: string, query: string) => {
-  console.log("in get summary api call: ", docId, query);
+export const generateSummary = async (docId: string, query: string) => {
+  console.log("in get summary api call: ", docId, query, apiHeader);
   try {
     const response = await client.post(
-      "/summary/from_summary",
+      "/summary/generate_summary",
       { docId, query },
       {
         headers: apiHeader,
       }
     );
+    console.log("get summary response: ", response);
+    return response.data;
+  } catch (error) {
+    console.log("get summary error: ", error);
+    throw error;
+  }
+};
+
+export const fetchSummaryById = async (docId: string) => {
+  console.log("in get summary api call: ", docId, apiHeader);
+  try {
+    const response = await client.get(`/summary/fetch_summary_by_id/${docId}`, {
+      headers: apiHeader,
+    });
     console.log("get summary response: ", response);
     return response.data;
   } catch (error) {

@@ -23,7 +23,6 @@ function App() {
           element={
             <ProtectedRoute>
               <Upload />
-              //{" "}
             </ProtectedRoute>
           }
         />
@@ -32,16 +31,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
-              //{" "}
             </ProtectedRoute>
           }
         />
         <Route
-          path="/summary"
+          path="/summary/:docId"
           element={
             <ProtectedRoute>
               <Summary />
-              //{" "}
             </ProtectedRoute>
           }
         />

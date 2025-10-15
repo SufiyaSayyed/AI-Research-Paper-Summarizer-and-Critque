@@ -27,21 +27,38 @@ llm = ChatGoogleGenerativeAI(
     google_api_key=GOOGLE_API_KEY
 )
 
-prompt = PromptTemplate.from_template(
-    """
-You are a research assistant. Using only the provided context (chunks from the paper), produce:
-1) **Summary**: A concise summary of the research paper (methods, results, and conclusions).
-2) **Strengths**: Highlight the strong points of the paper.
-3) **Limitations**: Critically analyze any weaknesses, gaps, or assumptions.
-4) **Future Directions**: Suggest potential next steps for research.
+prompt = PromptTemplate.from_template("""
+You are a research assistant specialized in academic paper analysis.
+Using only the provided context (chunks from the paper), analyze the content and return your response as a JSON object
+with the following format:
+
+{{
+  "title": "string (if extractable, else null)",
+  "summary": "Concise summary of the paper (methods, results, and conclusions).",
+  "strengths": ["list of strong points"],
+  "limitations": ["list of weaknesses or gaps"],
+  "future_directions": ["list of potential next steps for research"],
+  "novelty_score": "number between 1 and 10 indicating originality",
+  "technical_depth_score": "number between 1 and 10 indicating method rigor",
+  "clarity_score": "number between 1 and 10 indicating writing clarity",
+  "practical_impact_score": "number between 1 and 10 indicating real-world relevance",
+  "domain": "main field or discipline (AI, Medicine, etc.)",
+  "keywords": ["list of 3-7 important keywords extracted from context"],
+  "sources": ["list of source files or paper names provided"]
+}}
+
+Guidelines:
+- Keep sentences concise and academic.
+- Use bullet-style phrasing in list fields.
+- Do not include markdown formatting like ### or **.
+- Return *only* valid JSON (no quotes, no markdown).
 
 Context:
 {context}
 
 User query/request:
 {query}
-    """
-)
+""")
 
 rag_chain = prompt | llm
 
