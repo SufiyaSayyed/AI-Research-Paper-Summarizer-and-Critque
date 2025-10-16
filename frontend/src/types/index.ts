@@ -42,3 +42,22 @@ export type PaperContextType = {
   docId: string | "";
   setDocId: React.Dispatch<React.SetStateAction<string | "">>;
 };
+
+export interface PaperSummary {
+  title: string | null;
+  summary: string;
+  strengths: string[];
+  limitations: string[];
+  future_directions: string[];
+  novelty_score: number;
+  technical_depth_score: number;
+  clarity_score: number;
+  practical_impact_score: number;
+  domain: string;
+  keywords: string[];
+  sources: string[];
+}
+
+export interface PaperSummaryCardProps {
+  data: PaperSummary;
+}

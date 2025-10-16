@@ -10,6 +10,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from ..config.db import research_paper_collection
 from typing import List
 from fastapi import UploadFile
+from server.utils.util import pdf_to_image
 
 load_dotenv()
 
@@ -18,9 +19,11 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_ENV = os.getenv("PINECONE_ENV", "us-east-1")
 PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "research-paper-index")
 UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./upload_paper")
+IMAGE_DIR = os.getenv("IMAGE_DIR", "./image")
 
 os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(IMAGE_DIR, exist_ok=True)
 
 # initialize pinecone
 pc = Pinecone(api_key=PINECONE_API_KEY)
@@ -57,6 +60,8 @@ async def load_vectorstore(uploaded_files: List[UploadFile], uploaded: str, doc_
         content = await file.read()
         with open(save_path, 'wb') as f:
             f.write(content)
+    
+    image_path = pdf_to_image(str(save_path), IMAGE_DIR, doc_id)
 
     # load pdf pages
     loader = PyPDFLoader(str(save_path))
@@ -93,5 +98,6 @@ async def load_vectorstore(uploaded_files: List[UploadFile], uploaded: str, doc_
         "filename": filename,
         "uploader": uploaded,
         "num_chunks": len(chunks),
-        "uploaded_at": time.time()
+        "uploaded_at": time.time(),
+        "image_path": image_path
     })

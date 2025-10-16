@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     PINECONE_ENV: str
     GOOGLE_API_KEY: str
     UPLOAD_DIR: Path
+    IMAGE_DIR: Path
 
     class Config:
         env_file = ".env"

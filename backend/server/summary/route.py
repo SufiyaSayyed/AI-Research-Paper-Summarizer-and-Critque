@@ -25,6 +25,7 @@ async def summary(request: GenerateSummaryRequest, user=Depends(authenticate)):
     #call rag pipeline
     res = await research_paper_summary(user["username"], doc_id, query)
     
+    print("summary geneeration response: ",res)
     # persist the summary in mongo
     summary_collection.insert_one({
         "doc_id": doc_id,
@@ -42,13 +43,16 @@ async def summary(request: GenerateSummaryRequest, user=Depends(authenticate)):
 
 @router.get("/fetch_summary_by_id/{doc_id}")
 async def fetch_summary_by_id(doc_id: str, user=Depends(authenticate)): 
+    paper = research_paper_collection.find_one({"doc_id": doc_id})
     summaries = summary_collection.find({"doc_id": doc_id, "requester": user["username"]})
     result = []
     for s in summaries:
         s["_id"] = str(s["_id"])
+        s["image_path"] = paper.get("image_path") if paper else None
         result.append(s)
     if not result:
         raise HTTPException(status_code=404, detail="No summary found for this user")
+    print("fetch summary result: ", result)
     return result
 
 @router.get("/by_user")

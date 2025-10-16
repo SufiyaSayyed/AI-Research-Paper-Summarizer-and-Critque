@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from .auth.route import router as auth_router
 from .papers.route import router as paper_router
 from .summary.route import router as summary_router
+from fastapi.staticfiles import StaticFiles
+
 
 app = FastAPI(title="Research Summarizer")
 
@@ -17,7 +19,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+app.mount("/image_dir", StaticFiles(directory="image_dir"), name="image_dir")
 app.include_router(auth_router)
 app.include_router(paper_router)
 app.include_router(summary_router)
