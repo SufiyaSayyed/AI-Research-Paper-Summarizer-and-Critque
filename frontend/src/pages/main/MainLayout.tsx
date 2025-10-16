@@ -38,7 +38,7 @@ const MainLayout = () => {
       </div>
 
       <div className="flex-1 flex flex-col">
-        <div className="md:hidden fixed top-0 left-0 right-0 z-40 flex justify-between items-center p-4">
+        <div className="md:hidden fixed top-0 left-0 right-0 z-40 flex justify-between items-center px-4 py-2 bg-palette-8">
           <button
             className="rounded-lg hover:bg-gray-100"
             onClick={() => setIsOpen(true)}
