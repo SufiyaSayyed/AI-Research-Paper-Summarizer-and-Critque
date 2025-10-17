@@ -1,10 +1,10 @@
-import { env } from "@/api/config/env";
+import { envConfig } from "@/api/config/envConfig";
 import type { UserSummaryItem } from "@/types";
 import { Link } from "react-router-dom";
 
 const SummaryCard = ({ summary }: { summary: UserSummaryItem }) => {
   const thumbnail = summary.image_path
-    ? `${env.apiBaseUrl}/${summary.image_path}`
+    ? `${envConfig.apiBaseUrl}/${summary.image_path}`
     : "/placeholder.jpg";
 
   return (

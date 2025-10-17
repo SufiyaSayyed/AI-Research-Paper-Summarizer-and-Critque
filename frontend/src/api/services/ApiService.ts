@@ -1,7 +1,7 @@
 import type { LoginRequest, SignupRequest } from "@/types";
 import { apiHeader, client, uploadHeader } from "../axios/client";
 import axios from "axios";
-import { env } from "../config/env";
+import { envConfig } from "../config/envConfig";
 
 export const userLogin = async (loginRequest: LoginRequest) => {
   try {
@@ -52,7 +52,7 @@ export const userSignUp = async (signUpRequest: SignupRequest) => {
 export const refreshAccessToken = async () => {
   try {
     const response = await axios.post(
-      `${env.apiBaseUrl}/auth/refresh`,
+      `${envConfig.apiBaseUrl}/auth/refresh`,
       {},
       { withCredentials: true } // ensure cookie is sent
     );

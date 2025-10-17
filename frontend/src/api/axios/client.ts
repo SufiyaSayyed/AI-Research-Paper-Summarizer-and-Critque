@@ -1,9 +1,9 @@
 import axios from "axios";
-import { env } from "../config/env";
+import { envConfig } from "../config/envConfig";
 import { refreshAccessToken } from "../services/ApiService";
 
 export const apiConfig = {
-  base_url: env.apiBaseUrl,
+  base_url: envConfig.apiBaseUrl,
   withCredentials: true,
 };
 
