@@ -1,5 +1,6 @@
 import {
   fetchSummaryById,
+  fetchUserSummaries,
   generateSummary,
   uploadPaper,
 } from "@/api/services/ApiService";
@@ -100,5 +101,12 @@ export const useFetchSummaryByIdQuery = (doc_id: string) => {
     queryFn: () => fetchSummaryById(doc_id as string),
     queryKey: ["summary", doc_id],
     enabled: !!doc_id,
+  });
+};
+
+export const useFetchSummariesByUser = () => {
+  return useQuery({
+    queryFn: () => fetchUserSummaries(),
+    queryKey: ["userSummaries"],
   });
 };

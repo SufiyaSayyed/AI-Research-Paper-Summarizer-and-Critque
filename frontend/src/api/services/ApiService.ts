@@ -108,3 +108,16 @@ export const fetchSummaryById = async (docId: string) => {
     throw error;
   }
 };
+
+export const fetchUserSummaries = async () => {
+  try {
+    const response = await client.get("/summary/by_user", {
+      headers: apiHeader,
+    });
+    console.log("get summary response: ", response);
+    return response.data;
+  } catch (error) {
+    console.log("get summary error: ", error);
+    throw error;
+  }
+};

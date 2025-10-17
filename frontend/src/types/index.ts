@@ -61,3 +61,11 @@ export interface PaperSummary {
 export interface PaperSummaryCardProps {
   data: PaperSummary;
 }
+
+export interface UserSummaryItem {
+  doc_id: string;
+  filename: string;
+  image_path: string;
+  question: string;
+  timestamp: number;
+}
