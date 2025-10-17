@@ -70,7 +70,7 @@ const Upload = () => {
         {isUploadPending && (
           <div className="flex flex-col justify-center gap-2 items-center w-full bg-white py-2 md:px-10 rounded-2xl border-2 border-dotted animate-pulse">
             <img
-              src="./assets/images/upload.svg"
+              src="./assets/icon/upload.svg"
               alt="uplaoding"
               width={50}
               height={50}
@@ -81,7 +81,7 @@ const Upload = () => {
         {isUploadError && (
           <div className="flex flex-col justify-center gap-2 items-center w-full bg-white py-2 md:px-10 rounded-2xl border-2 border-dotted">
             <img
-              src="./assets/images/error.svg"
+              src="./assets/icons/error.svg"
               alt="error"
               width={50}
               height={50}
@@ -92,7 +92,7 @@ const Upload = () => {
         {isFetchSumPending && (
           <div className="flex flex-col justify-center gap-2 items-center w-full bg-white py-2 md:px-10 rounded-2xl border-2 border-dotted animate-pulse">
             <img
-              src="./assets/images/fetching_summary.svg"
+              src="./assets/icons/fetching_summary.svg"
               alt="fetching"
               width={50}
               height={50}
@@ -103,7 +103,7 @@ const Upload = () => {
         {isFetchSumError && (
           <div className="flex flex-col justify-center gap-2 items-center w-full bg-white py-2 md:px-10 rounded-2xl border-2 border-dotted">
             <img
-              src="./assets/images/error.svg"
+              src="./assets/icons/error.svg"
               alt="error"
               width={50}
               height={50}

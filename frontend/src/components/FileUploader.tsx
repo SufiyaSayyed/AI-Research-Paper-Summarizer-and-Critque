@@ -46,7 +46,7 @@ const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
               {/* File details */}
               <div className="flex flex-row sm:flex-row items-center gap-4 sm:gap-5 w-full sm:w-auto">
                 <img
-                  src="./assets/images/pdf.png"
+                  src="./assets/icons/pdf.png"
                   alt="pdf"
                   className="size-10 flex-shrink-0"
                 />
