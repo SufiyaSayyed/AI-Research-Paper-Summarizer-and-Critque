@@ -103,15 +103,21 @@ const SignUp = () => {
             )}
           />
 
-          <Button type="submit">
-            {form.formState.isSubmitting && isPending ? (
-              <div className="flex-center gap-2">
-                <Loader /> Loading...
-              </div>
+          <Button
+            type="submit"
+            className="flex items-center flex-row gap-2"
+            disabled={isPending}
+          >
+            {isPending ? (
+              <>
+                <Loader />
+                <p>Loading...</p>
+              </>
             ) : (
               "Sign Up"
             )}
           </Button>
+
           {isError && (
             <p className="text-red-600">
               Sorry something went wrong. Please try again.

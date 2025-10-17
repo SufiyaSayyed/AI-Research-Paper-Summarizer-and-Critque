@@ -51,16 +51,15 @@ export const useLogoutMutation = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
   return useMutation({
-    mutationFn: async (signupRequest: SignupRequest) => {
-      console.log("signup request in mutate: ", signupRequest);
+    mutationFn: async () => {
       return logout();
     },
     onSuccess: (data) => {
-      console.log("Signup successful", data);
+      console.log("logout successful", data);
       navigate("/");
     },
     onError: (error) => {
-      console.log("Signup error: ", error);
+      console.log("logout error: ", error);
       throw error;
     },
   });

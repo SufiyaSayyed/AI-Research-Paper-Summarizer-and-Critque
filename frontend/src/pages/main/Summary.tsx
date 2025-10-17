@@ -1,11 +1,13 @@
 import { env } from "@/api/config/env";
 import PaperSummaryCard from "@/components/PaperSummaryCard";
+import { Button } from "@/components/ui/button";
 import { useFetchSummaryByIdQuery } from "@/hooks/queriesAndMutation";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Summary = () => {
   const { docId } = useParams();
   const { data } = useFetchSummaryByIdQuery(docId!);
+  const navigate = useNavigate();
   console.log(docId);
 
   console.log(data);
@@ -40,12 +42,19 @@ const Summary = () => {
             </div>
           </section>
 
-          <section className="flex flex-col gap-8 w-1/2 px-8 max-lg:w-full py-6 items-center justify-center">
-            {JSON.parse(data[0].response) ? (
-              <PaperSummaryCard data={JSON.parse(data[0].response)} />
-            ) : (
-              <div>no summary fetched</div>
-            )}
+          <section className="flex flex-col gap-8 w-1/2 px-8 max-lg:w-full py-6">
+            <div className="flex justify-end">
+              <Button className=" w-min" onClick={() => navigate("/dashboard")}>
+                Go to Dashboard
+              </Button>
+            </div>
+            <div className="flex items-center justify-center">
+              {JSON.parse(data[0].response) ? (
+                <PaperSummaryCard data={JSON.parse(data[0].response)} />
+              ) : (
+                <div>no summary fetched</div>
+              )}
+            </div>
           </section>
         </div>
       </div>

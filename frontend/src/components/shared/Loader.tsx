@@ -1,10 +1,10 @@
 const Loader = () => (
-  <div className="flex-center w-full">
+  <div>
     <img
-      src="/assets/icons/loader.svg"
+      src="/assets/icons/loading.png"
       alt="loader"
-      width={24}
-      height={24}
+      width={20}
+      height={20}
       className="animate-spin"
     />
   </div>

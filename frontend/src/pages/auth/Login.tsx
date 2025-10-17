@@ -87,11 +87,16 @@ const Login = () => {
             )}
           />
 
-          <Button type="submit" className="">
-            {form.formState.isSubmitting && isPending ? (
-              <div className="flex-center gap-2">
-                <Loader /> Loading...
-              </div>
+          <Button
+            type="submit"
+            className="flex items-center flex-row gap-2"
+            disabled={isPending}
+          >
+            {isPending ? (
+              <>
+                <Loader />
+                <p>Loading...</p>
+              </>
             ) : (
               "Log In"
             )}
