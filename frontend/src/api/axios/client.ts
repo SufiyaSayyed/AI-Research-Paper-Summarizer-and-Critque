@@ -4,7 +4,7 @@ import { refreshAccessToken } from "../services/ApiService";
 
 export const apiConfig = {
   base_url: env.apiBaseUrl,
-  withCredentials: true, // Configure axios to include cookies with each request
+  withCredentials: true,
 };
 
 export const apiHeader = {
@@ -15,6 +15,7 @@ export const uploadHeader = {
   "Content-Type": "multipart/form-data",
 };
 
+// Handlers registered from AuthContext
 let getAccessToken: (() => string | null) | null = null;
 let setAccessToken: ((token: string) => void) | null = null;
 
@@ -26,19 +27,28 @@ export const registerTokenHandlers = (
   setAccessToken = setFn;
 };
 
+// Axios instance
 export const client = axios.create({
   baseURL: apiConfig.base_url,
-  withCredentials: true, // Configure axios to include cookies with each request
+  withCredentials: true,
 });
 
+// ---- RACE CONDITION FIX ----
+let isRefreshing = false;
+let refreshSubscribers: ((token: string) => void)[] = [];
+
+function subscribeTokenRefresh(cb: (token: string) => void) {
+  refreshSubscribers.push(cb);
+}
+
+function onRefreshed(token: string) {
+  refreshSubscribers.forEach((cb) => cb(token));
+  refreshSubscribers = [];
+}
+
 client.interceptors.response.use(
-  (response) => {
-    console.log("interceptor response: ", response);
-    console.log("header cookie : ", document.cookie);
-    return response;
-  },
+  (response) => response,
   async (error) => {
-    console.log("interceptor error: ", error);
     const originalRequest = error.config;
 
     if (
@@ -47,21 +57,45 @@ client.interceptors.response.use(
       getAccessToken &&
       setAccessToken
     ) {
-      console.log("in if 401 error interceptor");
+      if (isRefreshing) {
+        // Wait for current refresh to finish
+        return new Promise((resolve) => {
+          subscribeTokenRefresh((token) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            resolve(client(originalRequest));
+          });
+        });
+      }
+
+      // Start refresh flow
+      isRefreshing = true;
       originalRequest._retry = true;
+
       try {
-        console.log("in try 401 error interceptor");
-        const newAccessToken = await refreshAccessToken();
-        console.log("newAccessToken: ", newAccessToken.access_token);
-        setAccessToken(newAccessToken.access_token);
-        originalRequest.headers[
-          "Authorization"
-        ] = `Bearer ${newAccessToken.access_token}`;
+        const newTokenData = await refreshAccessToken();
+        const newAccessToken = newTokenData.access_token;
+
+        // This calls setAccessToken from AuthContext (registered earlier)
+        setAccessToken(newAccessToken);
+
+        // Update default headers
+        client.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
+
+        // Finish refresh
+        isRefreshing = false;
+        onRefreshed(newAccessToken);
+
+        // Retry original failed request
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return client(originalRequest);
-      } catch (refreshError) {
-        console.error("Refresh failed:", refreshError);
+      } catch (err) {
+        console.error("Token refresh failed:", err);
+        isRefreshing = false;
+        refreshSubscribers = [];
+        return Promise.reject(err);
       }
     }
+
     return Promise.reject(error);
   }
 );

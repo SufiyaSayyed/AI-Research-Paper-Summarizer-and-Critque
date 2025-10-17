@@ -64,7 +64,7 @@ rag_chain = prompt | llm
 
 
 async def research_paper_summary(user: str, doc_id: str, query: str):
-
+    print("in summary fetch: ")
     # embed the query
     embed_query = await asyncio.to_thread(embed_model.embed_query, query)
 
@@ -90,5 +90,7 @@ async def research_paper_summary(user: str, doc_id: str, query: str):
 
     # final call for llm rag chain
     final = await asyncio.to_thread(rag_chain.invoke, {"context": context_text, "query": query})
+    
+    print("llm response: ", final)
 
     return {"summary": final.content, "sources": list(soruces_set)}
