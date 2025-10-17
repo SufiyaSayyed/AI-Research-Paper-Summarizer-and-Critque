@@ -5,13 +5,14 @@ from pinecone import Pinecone
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
+from ..config.config import settings
 
 
 load_dotenv()
 
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+PINECONE_API_KEY = settings.PINECONE_API_KEY
+PINECONE_INDEX_NAME = settings.PINECONE_INDEX_NAME
+GOOGLE_API_KEY = settings.GOOGLE_API_KEY
 
 os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 

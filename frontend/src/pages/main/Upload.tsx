@@ -70,7 +70,7 @@ const Upload = () => {
         {isUploadPending && (
           <div className="flex flex-col justify-center gap-2 items-center w-full bg-white py-2 md:px-10 rounded-2xl border-2 border-dotted animate-pulse">
             <img
-              src="./assets/icon/upload.svg"
+              src="./assets/icons/upload.svg"
               alt="uplaoding"
               width={50}
               height={50}

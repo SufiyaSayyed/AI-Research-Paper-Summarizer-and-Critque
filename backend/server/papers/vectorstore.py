@@ -8,18 +8,19 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from ..config.db import research_paper_collection
+from ..config.config import settings
 from typing import List
 from fastapi import UploadFile
 from server.utils.util import pdf_to_image
 
 load_dotenv()
 
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-PINECONE_ENV = os.getenv("PINECONE_ENV", "us-east-1")
-PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "research-paper-index")
-UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./upload_paper")
-IMAGE_DIR = os.getenv("IMAGE_DIR", "./image")
+GOOGLE_API_KEY = settings.GOOGLE_API_KEY
+PINECONE_API_KEY = settings.PINECONE_API_KEY
+PINECONE_ENV = settings.PINECONE_ENV
+PINECONE_INDEX_NAME = settings.PINECONE_INDEX_NAME
+UPLOAD_DIR = settings.UPLOAD_DIR
+IMAGE_DIR = settings.IMAGE_DIR
 
 os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 os.makedirs(UPLOAD_DIR, exist_ok=True)

@@ -90,7 +90,7 @@ cd backend
 
 ### Installation and Development
 
-Since backend is setup using uv simply run below command, it will install dependencies and run on uvicorn server automatically.
+Add the required environment variables for setup present in config.py. Since backend is configured using uv simply run below command, it will install dependencies and run on uvicorn server automatically.
 
 ```bash
 uv run uvicorn server.main:app --reload --host localhost --port 8000
