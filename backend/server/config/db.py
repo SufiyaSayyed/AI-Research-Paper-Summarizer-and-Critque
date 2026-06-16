@@ -3,7 +3,7 @@ from pymongo import MongoClient
 import os
 from .config import settings
 
-client = MongoClient(settings.MONGO_URI)
+client = MongoClient(settings.MONGO_URI, tls=True, tlsAllowInvalidCertificates=True)
 db = client[settings.DB_NAME]
 
 users_collection=db["users"]

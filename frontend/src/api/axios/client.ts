@@ -99,3 +99,13 @@ client.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+client.interceptors.request.use((config) => {
+  if (getAccessToken) {
+    const token = getAccessToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+  return config;
+});

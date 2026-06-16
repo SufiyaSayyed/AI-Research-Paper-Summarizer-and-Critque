@@ -6,6 +6,8 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 from ..config.config import settings
+import json
+import re
 
 
 load_dotenv()
@@ -70,28 +72,46 @@ async def research_paper_summary(user: str, doc_id: str, query: str):
     embed_query = await asyncio.to_thread(embed_model.embed_query, query)
 
     # search the embeded query from pincone vectordb
-    results = await asyncio.to_thread(index.query, vector=embed_query, top_k=5, include_metadata=True)
+    results = await asyncio.to_thread(index.query, vector=embed_query, top_k=5, include_metadata=True, filter={"doc_id": doc_id})
 
     # filter from results based on doc_id matches
     context = []
-    soruces_set = set()
+    sources_set = set()
     for match in results.get("matches", []):
         md = match.get("metadata", {})
-        if md.get("doc_id") == doc_id:
-            # extract text snippet from that doc_id chunk
-            text_snippet = md.get("text") or ""
-            context.append(text_snippet)
-            soruces_set.add(md.get("source"))
+        text_snippet = md.get("text") or ""
+        context.append(text_snippet)
+        sources_set.add(md.get("source"))
 
     if not context:
         return {"summary": None, "explanation": "No content indexed for this doc_id"}
 
     # limit context length
     context_text = "\n\n".join(context[:5])
+    
+    print("Context used:\n", context_text)
 
     # final call for llm rag chain
     final = await asyncio.to_thread(rag_chain.invoke, {"context": context_text, "query": query})
     
     print("llm response: ", final)
 
-    return {"summary": final.content, "sources": list(soruces_set)}
+    
+    raw = final.content.strip()
+    
+    # remove markdown formatting if any
+    if raw.startswith("```"):
+        raw = re.sub(r"^```(?:json)?\s*", "", raw)
+        raw = re.sub(r"\s*```$", "", raw)
+    
+    try:
+        parsed = json.loads(raw)
+    except json.JSONDecodeError as e:
+        print("JSON parsing failed:", e)
+        parsed = {
+            "error": "Invalid JSON from LLM",
+            "raw_output": raw
+        }
+    
+
+    return {"summary": parsed, "sources": list(sources_set)}

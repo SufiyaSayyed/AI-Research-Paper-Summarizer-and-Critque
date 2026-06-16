@@ -35,7 +35,7 @@ existing_indices = [i["name"] for i in pc.list_indexes()]
 
 if PINECONE_INDEX_NAME not in existing_indices:
     pc.create_index(name=PINECONE_INDEX_NAME, dimension=384,
-                    metric="dotproduct", spec=spec)
+                    metric="cosine", spec=spec)
     while not pc.describe_index(PINECONE_INDEX_NAME).status["ready"]:
         time.sleep(1)
 

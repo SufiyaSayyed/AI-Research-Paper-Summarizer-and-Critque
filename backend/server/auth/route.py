@@ -38,10 +38,6 @@ def authenticate(request: Request):
     
     user = users_collection.find_one({"_id": ObjectId(user_id)})
 
-    
-    if not user:
-        raise HTTPException(status_code=401, detail="User not found. Create user.")
-    
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized access. Invalid credentials.")
     return {

@@ -12,7 +12,7 @@ const Summary = () => {
 
   console.log(data);
   if (data) {
-    console.log("formatted response: ", JSON.parse(data[0].response));
+    console.log("formatted response: ", data[0].response);
     console.log(data[0].image_path);
     // const data = [
     //   {
@@ -49,8 +49,8 @@ const Summary = () => {
               </Button>
             </div>
             <div className="flex items-center justify-center">
-              {JSON.parse(data[0].response) ? (
-                <PaperSummaryCard data={JSON.parse(data[0].response)} />
+              {data[0].response ? (
+                <PaperSummaryCard data={data[0].response} />
               ) : (
                 <div>no summary fetched</div>
               )}

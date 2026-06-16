@@ -16,11 +16,13 @@ const Upload = () => {
   const [file, setFile] = useState<File | null>(null);
   const [query, setQuery] = useState("");
   const { setDocId } = usePaper();
+
   const {
     mutate: uploadPaper,
     isError: isUploadError,
     isPending: isUploadPending,
   } = useUploadMutation();
+
   const {
     mutate: fetchSummary,
     isError: isFetchSumError,
