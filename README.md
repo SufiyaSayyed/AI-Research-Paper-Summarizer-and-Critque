@@ -41,7 +41,7 @@ The application is designed with a robust modular architecture where each module
 
 The following flow diagram explains the step-by-step process from paper submission to generation of summaries, critiques, and feedback integration:
 
-<img src="./frontend/public/assets/images/flow_diagram.png" alt="System Flow Diagram" width="420"/>
+<img src="./frontend/public/assets/images/flow_diagram2.png" alt="System Flow Diagram" width="420"/>
 
 - Users can upload a PDF of research paper.
 - The system fetches and preprocesses the content using specialized parsers.
