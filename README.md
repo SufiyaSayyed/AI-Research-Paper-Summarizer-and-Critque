@@ -26,13 +26,14 @@ An AI-powered app designed to help users summarize, analyze, and critique academ
 
 The application is designed with a robust modular architecture where each module handles a specific responsibility. The following diagram summarizes all key modules and their roles:
 
-<img src="./frontend/public/assets/images/module_diagram.png" alt="Module Diagram" width="700"/>
+<img src="./frontend/public/assets/images/module_diagram2.png" alt="Module Diagram" width="700"/>
 
 - **Authentication Module**: Handles user signup, login, JWT token-based access for secure entry.
-- **API Module**: Acts as the backend entry point for routing requests between frontend and backend services.
-- **Database Module**: Stores user data, research paper metadata, embeddings, chunks, and analysis outputs.
-- **Paper Processing Module**: Manages file uploads, text extraction from documents, chunking, and vector embeddings.
+- **Frontend Module**: React frontend, login/signup, pdf upload, summary viewer and summary dashboard.
+- **Database Module**: (pinecone and mongoDB) Stores user data, research paper metadata, embeddings, chunks, and analysis outputs.
+- **Research Paper Module**: Manages file uploads, text extraction from documents, chunking, and vector embeddings.
 - **Summarization & Critique Module**: Implements agentic workflow that analyze research papers, generate insights, and produce structured summaries and critiques.
+- **LLM Module (gemini)**: Provides detailed analysis/critique, summary, strengths, limitations, scores.
 
 ---
 

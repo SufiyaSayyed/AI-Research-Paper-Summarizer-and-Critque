@@ -79,7 +79,7 @@ async def load_vectorstore(uploaded_files: List[UploadFile], uploaded: str, doc_
             "doc_id": doc_id,
             "uploader": uploaded,
             "page": chunk.metadata.get("page", None),
-            "text": chunk.page_content[:2000]
+            "text": chunk.page_content
         }
         for chunk in chunks
     ]
